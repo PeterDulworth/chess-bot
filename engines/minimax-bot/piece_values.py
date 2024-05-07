@@ -1,9 +1,19 @@
 import chess
 
+# Value of each piece (centi-pawns). Based on SEF.
+piece_weights = {
+    chess.PAWN: 100,
+    chess.KNIGHT: 320,
+    chess.BISHOP: 330,
+    chess.ROOK: 500,
+    chess.QUEEN: 900,
+    chess.KING: 20000,
+}
 
-def get_material_eval_for_color(piece_weights, piece_counts):
+
+def get_material_eval_for_color(piece_counts):
     """
-    Given piece counts, and piece weights, evaluate the position by calculating the material.
+    Given piece counts, evaluate the position by calculating the material.
     """
 
     # TODO: add in heuristics. e.g.:
@@ -27,22 +37,12 @@ def get_material_eval(board):
     Eval = white_material - black_material.
     """
 
-    # Value of each piece (centi-pawns)
-    piece_weights = {
-        chess.PAWN: 100,
-        chess.KNIGHT: 320,
-        chess.BISHOP: 330,
-        chess.ROOK: 500,
-        chess.QUEEN: 900,
-        chess.KING: 20000,
-    }
-
     # Count the number of each piece on each side.
     white_piece_counts = dict((k, len(board.pieces((k, chess.WHITE)))) for (k, v) in piece_weights.items())
     black_piece_counts = dict((k, len(board.pieces((k, chess.BLACK)))) for (k, v) in piece_weights.items())
 
     # Calculate material on each side, using weights.
-    white_material = get_material_eval_for_color(piece_weights, white_piece_counts)
-    black_material = get_material_eval_for_color(piece_weights, black_piece_counts)
+    white_material = get_material_eval_for_color(white_piece_counts)
+    black_material = get_material_eval_for_color(black_piece_counts)
 
     return white_material - black_material
