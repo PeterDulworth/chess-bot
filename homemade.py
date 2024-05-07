@@ -11,6 +11,8 @@ import random
 from lib.engine_wrapper import MinimalEngine, MOVE
 from typing import Any
 import logging
+from engines.minimax_bot.main import get_move
+
 
 
 # Use this logger variable to print messages to the console or log files.
@@ -23,6 +25,15 @@ class ExampleEngine(MinimalEngine):
     """An example engine that all homemade engines inherit."""
 
     pass
+
+
+class MinimaxBot(ExampleEngine):
+    def search(self, board: chess.Board, *args: Any) -> PlayResult:
+        print("GETTING MOVE!")
+
+        move = get_move(board, 4)
+
+        return PlayResult(move, None)
 
 
 # Bot names and ideas from tom7's excellent eloWorld video

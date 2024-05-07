@@ -1,6 +1,6 @@
-from piece_values import get_material_eval
+from .piece_values import get_material_eval
 import chess
-import position_values
+from .position_values import position_weights
 
 pieces = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]
 
@@ -27,9 +27,9 @@ def get_evaluation(board):
     # TODO: detect middle game vs end game and use appropriate weights for kings
     positional_eval = 0
     for piece in pieces:
-        positional_eval += sum([position_values.position_weights[piece][i] for i in board.pieces(piece, chess.WHITE)])
+        positional_eval += sum([position_weights[piece][i] for i in board.pieces(piece, chess.WHITE)])
 
     for piece in pieces:
-        positional_eval -= sum([position_values.position_weights[piece][chess.square_mirror(i)] for i in board.pieces(piece, chess.BLACK)])
+        positional_eval -= sum([position_weights[piece][chess.square_mirror(i)] for i in board.pieces(piece, chess.BLACK)])
 
     return material_eval + positional_eval

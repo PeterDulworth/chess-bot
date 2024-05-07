@@ -5,6 +5,11 @@
 
 A bridge between [Lichess Bot API](https://lichess.org/api#tag/Bot) and bots.
 
+```
+source ./venv/bin/activate
+python3 lichess-bot.py
+```
+
 ## Features
 Supports:
 - Every variant and time control
