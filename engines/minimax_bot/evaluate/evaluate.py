@@ -1,6 +1,6 @@
-from .piece_values import get_material_eval
+from engines.minimax_bot.evaluate.piece_values import get_material_eval
 import chess
-from .position_values import position_weights
+from engines.minimax_bot.evaluate.position_values import position_weights
 
 pieces = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]
 

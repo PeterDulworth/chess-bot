@@ -1,5 +1,5 @@
-from .evaluate import get_evaluation
 import numpy as np
+from engines.minimax_bot.evaluate.evaluate import get_evaluation
 
 
 def minimax(board, depth, alpha, beta, maximizing_player):
