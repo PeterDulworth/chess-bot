@@ -10,7 +10,26 @@ class TestGamePhase(unittest.TestCase):
         board = chess.Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 
         # When
-        num_minor_and_major_pieces = get_num_major_and_minor_pieces(board)
+        num_minor_and_major_pieces_1 = get_num_major_and_minor_pieces(board)
 
         # Then
-        self.assertEqual(num_minor_and_major_pieces, 14)
+        self.assertEqual(num_minor_and_major_pieces_1, 14)
+
+        # Given kings only
+        board = chess.Board("3k4/8/8/8/8/8/8/3K4 w - - 0 1")
+
+        # When
+        num_minor_and_major_pieces_2 = get_num_major_and_minor_pieces(board)
+
+        # Then
+        self.assertEqual(num_minor_and_major_pieces_2, 0)
+
+        # Given kings and queens
+        board = chess.Board("q2k4/8/8/8/8/8/8/Q2K4 w - - 0 1")
+
+        # When
+        num_minor_and_major_pieces_2 = get_num_major_and_minor_pieces(board)
+
+        # Then
+        self.assertEqual(num_minor_and_major_pieces_2, 2)
+
