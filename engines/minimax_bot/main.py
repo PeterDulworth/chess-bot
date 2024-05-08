@@ -2,7 +2,7 @@ import chess
 import numpy as np
 
 from engines.minimax_bot.opening.opening import play_opening
-from .minimax import minimax
+from engines.minimax_bot.search.minimax import minimax
 
 
 def get_move(board, depth):

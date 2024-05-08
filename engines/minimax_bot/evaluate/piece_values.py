@@ -1,3 +1,7 @@
+"""
+Calculate the value of each piece on the board.
+"""
+
 import chess
 
 # Value of each piece (centi-pawns). Based on SEF.
