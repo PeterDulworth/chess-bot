@@ -7,6 +7,7 @@ Built using the [Lichess Bot API](https://lichess.org/api#tag/Bot).
 ```
 source ./venv/bin/activate
 python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-dev.txt
 python3 lichess-bot.py
 ```
 

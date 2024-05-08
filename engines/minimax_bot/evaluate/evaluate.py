@@ -1,6 +1,7 @@
 from engines.minimax_bot.evaluate.piece_values import get_material_eval
 import chess
-from engines.minimax_bot.evaluate.position_values import position_weights
+from engines.minimax_bot.evaluate.position_values import get_position_weights
+from engines.minimax_bot.game_phase import get_game_phase
 
 pieces = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]
 
@@ -11,10 +12,10 @@ def get_evaluation(board):
     """
     # Handle checkmate / stalemate.
     if board.is_checkmate():
-        if board.turn:
-            return -9999
+        if board.turn == chess.WHITE:
+            return -99999
         else:
-            return 9999
+            return 99999
     if board.is_stalemate():
         return 0
     if board.is_insufficient_material():
@@ -24,7 +25,8 @@ def get_evaluation(board):
     material_eval = get_material_eval(board)
 
     # Count the values of each piece based on it's position on the board.
-    # TODO: detect middle game vs end game and use appropriate weights for kings
+    # Use different weights depending on game-phase.
+    position_weights = get_position_weights(game_phase=get_game_phase(board))
     positional_eval = 0
     for piece in pieces:
         positional_eval += sum([position_weights[piece][i] for i in board.pieces(piece, chess.WHITE)])
