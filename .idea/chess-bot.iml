@@ -8,6 +8,10 @@
       <excludeFolder url="file://$MODULE_DIR$/venv/bin" />
       <excludeFolder url="file://$MODULE_DIR$/venv/include" />
       <excludeFolder url="file://$MODULE_DIR$/venv/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/lichess_bot_auto_logs" />
+      <excludeFolder url="file://$MODULE_DIR$/wiki" />
+      <excludePattern pattern="LICENSE" />
+      <excludePattern pattern="config.yml.default" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (chess-bot)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

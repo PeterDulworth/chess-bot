@@ -40,5 +40,5 @@ def get_move(board, depth):
                 top_move = move
                 top_eval = cur_eval
 
-    logger.info(f"Playing engine move 🤖: {top_move}, eval={top_eval}")
+    logger.info(f"Playing engine move 🤖: {top_move}, eval={top_eval / 100.0}")
     return top_move

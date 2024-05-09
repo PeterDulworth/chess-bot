@@ -19,9 +19,9 @@ def play_opening(board) -> tuple[str, str] | tuple[None, None]:
     file_path = os.path.join(current_directory, OPENINGS_FILE)
 
     # Get all the SAN notations
-    chess_openings = pd.read_csv(file_path)
-    chess_openings = chess_openings["moves"].tolist()
-    chess_opening_names = chess_openings["name"].tolist()
+    chess_openings_csv = pd.read_csv(file_path)
+    chess_openings = chess_openings_csv["moves"].tolist()
+    chess_opening_names = chess_openings_csv["name"].tolist()
 
     # Loop over each opening. Try and match each position to the current game state.
     # If there is a match save the next move as a candidate move.
@@ -32,13 +32,13 @@ def play_opening(board) -> tuple[str, str] | tuple[None, None]:
 
         # Loop over the moves in the opening.
         for j, move in enumerate(opening_moves):
-            opening_board.push_san(move)
             try:
+                opening_board.push_san(move)
                 # If our board matches the opening, add the next move
                 if board == opening_board and opening_moves:
                     next_move = board.parse_san(opening_moves[j + 1]).uci()
                     candidate_moves.append((next_move, opening_name))
-            except ValueError:
+            except:
                 # The opening move order ended, or move was otherwise invalid (wrong side etc.)
                 break
 

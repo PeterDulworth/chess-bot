@@ -29,8 +29,6 @@ class ExampleEngine(MinimalEngine):
 
 class MinimaxBot(ExampleEngine):
     def search(self, board: chess.Board, *args: Any) -> PlayResult:
-        print("GETTING MOVE!")
-
         move = get_move(board, 4)
 
         return PlayResult(move, None)
