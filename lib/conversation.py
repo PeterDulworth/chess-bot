@@ -55,10 +55,7 @@ class Conversation:
         """
         from_self = line.username == self.game.username
         if cmd == "commands" or cmd == "help":
-            self.send_reply(line, "Supported commands: !throw, !wait (wait a minute for my first move), !name, !eval, !queue")
-        elif cmd == "wait" and self.game.is_abortable():
-            self.game.ping(seconds(60), seconds(120), seconds(120))
-            self.send_reply(line, "Waiting 60 seconds...")
+            self.send_reply(line, "Supported commands: !throw, !name, !phase, !eval, !queue")
         elif cmd == "throw":
             self.send_reply(line, "No u")
         elif cmd == "name":
@@ -67,6 +64,9 @@ class Conversation:
         elif cmd == "eval":
             stats = self.engine.get_stats(for_chat=True)
             self.send_reply(line, ", ".join(stats))
+        elif cmd == "phase":
+            state = self.game.state
+            self.send_reply(line, ", ".join(state['moves']))
         elif cmd == "queue":
             if self.challengers:
                 challengers = ", ".join([f"@{challenger.challenger.name}" for challenger in reversed(self.challengers)])

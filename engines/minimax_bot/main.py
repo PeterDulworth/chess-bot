@@ -1,15 +1,18 @@
 import chess
 import numpy as np
+import logging
 
 from engines.minimax_bot.opening.opening import play_opening
 from engines.minimax_bot.search.minimax import minimax
 
+logger = logging.getLogger(__name__)
+
 
 def get_move(board, depth):
-    opening_move = play_opening(board)
+    opening_move, opening_name = play_opening(board)
 
     if opening_move:
-        print("PLAYING OPENING MOVE: ", opening_move)
+        logger.info(f"Playing book move 📚: {opening_move}. Opening={opening_name}")
         return opening_move
 
     top_move = None
@@ -37,5 +40,5 @@ def get_move(board, depth):
                 top_move = move
                 top_eval = cur_eval
 
-    print("CHOSEN MOVE: ", top_move, "WITH EVAL: ", top_eval)
+    logger.info(f"Playing engine move 🤖: {top_move}, eval={top_eval}")
     return top_move

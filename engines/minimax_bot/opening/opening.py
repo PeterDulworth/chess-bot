@@ -4,48 +4,49 @@ import chess.pgn
 import random
 import os
 
+OPENINGS_FILE = "openings.csv"
 
-def play_opening(board):
-    next_opening_moves = []
 
-    # If we go first, we just play d4
+def play_opening(board) -> tuple[str, str] | tuple[None, None]:
+    candidate_moves = []
+
+    # If we go first, randomly choose between e4 and d4
     if board.turn == chess.WHITE and board.fullmove_number == 1:
-        next_opening_moves.append("d2d4")
+        return random.choice([("d2d4", "Queen's Pawn"), ("e2e4", "King's Pawn")])
 
-    # Get the current directory of game.py
+    # Define the file path relative to the current directory.
     current_directory = os.path.dirname(os.path.abspath(__file__))
-
-    # Define the file path relative to the current directory
-    file_path = os.path.join(current_directory, 'openings.csv')
+    file_path = os.path.join(current_directory, OPENINGS_FILE)
 
     # Get all the SAN notations
     chess_openings = pd.read_csv(file_path)
     chess_openings = chess_openings["moves"].tolist()
+    chess_opening_names = chess_openings["name"].tolist()
 
-    # Loop over each opening
-    # If it "contains" the same board position as our current board
-    # Return it's next move
-    new_board = chess.Board()
-    for opening in chess_openings:
-        moves_in_openings = opening.split()
+    # Loop over each opening. Try and match each position to the current game state.
+    # If there is a match save the next move as a candidate move.
+    opening_board = chess.Board()
+    for i, opening in enumerate(chess_openings):
+        opening_name = chess_opening_names[i]
+        opening_moves = opening.split()
 
-        for index, move in enumerate(moves_in_openings):
+        # Loop over the moves in the opening.
+        for j, move in enumerate(opening_moves):
+            opening_board.push_san(move)
             try:
-                new_board.push_san(move)
-
-                if board == new_board:
-                    next_move = board.parse_san(moves_in_openings[index + 1]).uci()
-                    next_opening_moves.append(next_move)
-            except:
+                # If our board matches the opening, add the next move
+                if board == opening_board and opening_moves:
+                    next_move = board.parse_san(opening_moves[j + 1]).uci()
+                    candidate_moves.append((next_move, opening_name))
+            except ValueError:
+                # The opening move order ended, or move was otherwise invalid (wrong side etc.)
                 break
 
-        new_board.reset()
+        opening_board.reset()
 
     # If there are no more opening moves, return None
-    if not next_opening_moves:
-        return None
+    if not candidate_moves:
+        return None, None
 
     # If there is valid openings, randomly choose the next move of them
-    random_opening_from_array = random.choice(next_opening_moves)
-
-    return random_opening_from_array
+    return random.choice(candidate_moves)
