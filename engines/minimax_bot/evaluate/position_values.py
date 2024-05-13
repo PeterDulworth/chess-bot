@@ -47,7 +47,7 @@ position_weights: dict[chess.Piece, list[int]] = {
         -5, 0,  0,  0,  0,  0,  0, -5,
         -5, 0,  0,  0,  0,  0,  0, -5,
         -5, 0,  0,  0,  0,  0,  0, -5,
-         0, 0,  0,  5,  5,  0,  0,  0
+         0, 0,  0,  5,  5,  100,  0,  0
     ],
     chess.QUEEN: [
         -20, -10, -10, -5, -5, -10, -10, -20,
@@ -67,22 +67,46 @@ position_weights: dict[chess.Piece, list[int]] = {
         -20, -30, -30, -40, -40, -30, -30, -20,
         -10, -20, -20, -20, -20, -20, -20, -10,
          20,  20,  0,   0,   0,   0,   20,  20,
-         20,  30,  10,  0,   0,   10,  30,  20
+         20,  30,  10,  0,   0,   0,  100,  20
     ],
 }
 
-# endgame weights are the same, except the king is rewarded for being in the center of the board
-position_weights_endgame: dict[chess.Piece, list[int]] = position_weights.copy()
-position_weights_endgame[chess.KING] = [
-    -50, -40, -30, -20, -20, -30, -40, -50,
-    -30, -20, -10,  0,   0,  -10, -20, -30,
-    -30, -10,  20,  30,  30,  20, -10, -30,
-    -30, -10,  30,  40,  40,  30, -10, -30,
-    -30, -10,  30,  40,  40,  30, -10, -30,
-    -30, -10,  20,  30,  30,  20, -10, -30,
-    -30, -30,  0,   0,   0,   0,  -30, -30,
-    -50, -30, -30, -30, -30, -30, -30, -50
-]
+position_weights_endgame: dict[chess.Piece, list[int]] = {
+    chess.PAWN: [
+        0, 0, 0, 0, 0, 0, 0, 0,
+        178, 173, 158, 134, 147, 132, 165, 187,
+        94, 100, 85, 67, 56, 53, 82, 84,
+        32, 24, 13, 5, -2, 4, 17, 17,
+        13, 9, -3, -7, -7, -8, 3, -1,
+        4, 7, -6, 1, 0, -5, -1, -8,
+        13, 8, 8, 10, 13, 0, 2, -7,
+        0, 0, 0, 0, 0, 0, 0, 0,
+    ],
+    chess.KNIGHT: position_weights[chess.KNIGHT],
+    chess.BISHOP: position_weights[chess.BISHOP],
+    chess.ROOK: [
+         0, 0,  0,  0,  0,  0,  0,  0,
+         5, 20, 20, 20, 20, 20, 20, 5,
+        -5, 0,  0,  0,  0,  0,  0, -5,
+        -5, 0,  0,  0,  0,  0,  0, -5,
+        -5, 0,  0,  0,  0,  0,  0, -5,
+        -5, 0,  0,  0,  0,  0,  0, -5,
+        -5, 0,  0,  0,  0,  0,  0, -5,
+         0, 0,  0,  5,  5,  0,  0,  0
+    ],
+    chess.QUEEN: position_weights[chess.QUEEN],
+    # reward the king for being in the center in the endgame
+    chess.KING: [
+        -50, -40, -30, -20, -20, -30, -40, -50,
+        -30, -20, -10,  0,   0,  -10, -20, -30,
+        -30, -10,  20,  30,  30,  20, -10, -30,
+        -30, -10,  30,  40,  40,  30, -10, -30,
+        -30, -10,  30,  40,  40,  30, -10, -30,
+        -30, -10,  20,  30,  30,  20, -10, -30,
+        -30, -30,  0,   0,   0,   0,  -30, -30,
+        -50, -30, -30, -30, -30, -30, -30, -50
+    ],
+}
 
 
 def get_position_weights(game_phase: GamePhase) -> dict[chess.Piece, list[int]]:
